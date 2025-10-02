@@ -45,7 +45,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 func distance(steps int, height float64) float64 {
 	stepLength := stepLengthCoefficient * height
 
-	return stepLength * float64(steps) / mInKm
+	return (stepLength * float64(steps)) / mInKm
 }
 
 func meanSpeed(steps int, height float64, duration time.Duration) float64 {
@@ -87,7 +87,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 	distance := distance(steps, height)
 	meanSpeed := meanSpeed(steps, height, duration)
 
-	return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f", activity, duration.Hours(), distance, meanSpeed, spentCalories), nil
+	return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", activity, duration.Hours(), distance, meanSpeed, spentCalories), nil
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
