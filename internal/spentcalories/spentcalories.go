@@ -1,6 +1,7 @@
 package spentcalories
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"strconv"
@@ -20,7 +21,7 @@ const (
 func parseTraining(data string) (int, string, time.Duration, error) {
 	dataParts := strings.Split(data, ",")
 	if len(dataParts) != 3 {
-		return 0, "", 0, fmt.Errorf("некорректные данные")
+		return 0, "", 0, errors.New("incorrect data")
 	}
 
 	steps, err := strconv.Atoi(dataParts[0])
@@ -28,7 +29,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, err
 	}
 	if steps <= 0 {
-		return 0, "", 0, fmt.Errorf("некорректные данные")
+		return 0, "", 0, fmt.Errorf("incorrect steps: %d", steps)
 	}
 
 	duration, err := time.ParseDuration(dataParts[2])
@@ -36,7 +37,7 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, err
 	}
 	if duration <= 0 {
-		return 0, "", 0, fmt.Errorf("некорректные данные")
+		return 0, "", 0, fmt.Errorf("incorrect duration: %v", duration)
 	}
 
 	return steps, dataParts[1], duration, nil
@@ -92,7 +93,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
-		return 0, fmt.Errorf("некорректные данные")
+		return 0, errors.New("incorrect data")
 	}
 
 	meanSpeed := meanSpeed(steps, height, duration)
@@ -102,7 +103,7 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	if steps <= 0 || weight <= 0 || height <= 0 || duration <= 0 {
-		return 0, fmt.Errorf("некорректные данные")
+		return 0, errors.New("incorrect data")
 	}
 
 	meanSpeed := meanSpeed(steps, height, duration)
